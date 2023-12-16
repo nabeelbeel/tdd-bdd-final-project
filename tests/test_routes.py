@@ -238,6 +238,25 @@ class TestProductRoutes(TestCase):
         """It should not Delete a not found product"""
         response = self.client.delete(f"{BASE_URL}/0")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+      
+def test_list_all_products(self):
+    """It should list all Products in the database"""
+    # Create some products
+    self._create_products(5)
+
+    # Retrieve the list of all products
+    response = self.client.get(BASE_URL)
+    self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    # Check that the number of products in the response matches the number created
+    data = response.get_json()
+    product_count = self.get_product_count()
+    self.assertEqual(len(data), product_count)
+
+    # Check that each product in the response matches the created products
+    created_products = Product.all()
+    for product in created_products:
+        self.assertIn(product.serialize(), data)
 
     def test_list_by_name(self):
         """It should Query Products by name"""
