@@ -104,6 +104,7 @@ class TestProductModel(unittest.TestCase):
     #
     # ADD YOUR TEST CASES HERE
     #
+
     def test_read_a_product(self):
         '''It should Create a product and be able to find and read its attributes'''
         product = ProductFactory()

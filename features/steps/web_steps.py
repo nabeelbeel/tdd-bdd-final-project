@@ -57,6 +57,11 @@ def step_impl(context, element_name, text_string):
     element.clear()
     element.send_keys(text_string)
 
+@when('I press the "{button_name}" button')
+def step_impl(context, button_name):
+    button_id = button_name.lower() + '-btn'
+    context.driver.find_element(By.ID, button_id).click()
+
 @when('I select "{text}" in the "{element_name}" dropdown')
 def step_impl(context, text, element_name):
     element_id = ID_PREFIX + element_name.lower().replace(' ', '_')
@@ -74,6 +79,21 @@ def step_impl(context, element_name):
     element_id = ID_PREFIX + element_name.lower().replace(' ', '_')
     element = context.driver.find_element(By.ID, element_id)
     assert(element.get_attribute('value') == u'')
+
+@then('I should see the message "{message}"')
+def step_impl(context, message):
+    element = context.driver.find_element(By.ID, "flash_message")
+    assert(message in element.text)
+
+@then('I should see "{text}" in the results')
+def step_impl(context, text):
+    element = context.driver.find_element(By.ID, "search_results")
+    assert(text in element.text)
+
+@then('I should not see "{text}" in the results')
+def step_impl(context, text):
+    element = context.driver.find_element(By.ID, "search_results")
+    assert(text not in element.text)
 
 ##################################################################
 # These two function simulate copy and paste
