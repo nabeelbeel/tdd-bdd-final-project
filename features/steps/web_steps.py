@@ -153,6 +153,10 @@ def step_impl(context, text_string, element_name):
         )
     )
     assert(not found)
+@then('I should see the message "{message}"')
+def step_impl(context, message):
+    element = context.driver.find_element(By.ID, "flash_message")
+    assert message in element.text
 
 @when('I change "{element_name}" to "{text_string}"')
 def step_impl(context, element_name, text_string):
